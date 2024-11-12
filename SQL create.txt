@@ -1,0 +1,74 @@
+CREATE TABLE type (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  name NVARCHAR(30)
+  );
+
+CREATE TABLE users (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  fio NVARCHAR(255),
+  phone int,
+  login VARCHAR(30),
+  password VARCHAR(30),
+  typeID int,
+  FOREIGN KEY (typeID) REFERENCES type(ID)
+  );
+
+CREATE TABLE tech_type (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  name NVARCHAR(30)
+  );
+
+CREATE TABLE tech_model (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  name NVARCHAR(30)
+  );
+
+CREATE TABLE problem_description (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  name NVARCHAR(255)
+  );
+
+CREATE TABLE request_status (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  name NVARCHAR(30)
+  );
+
+CREATE TABLE repare_parts (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  name NVARCHAR(255)
+  );
+
+CREATE TABLE orders (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  start_date DATE,
+  tech_typeID int,
+  tech_modelID int,
+  problem_descriptionID int,
+  request_statusID int,
+  completion_date DATE,
+  masterID int,
+  clientID int,
+  repare_partsID int,
+  FOREIGN KEY (tech_typeID) REFERENCES tech_type(ID),
+  FOREIGN KEY (tech_modelID) REFERENCES tech_model(ID),
+  FOREIGN KEY (problem_descriptionID) REFERENCES problem_description(ID),
+  FOREIGN KEY (request_statusID) REFERENCES request_status(ID),
+  FOREIGN KEY (masterID) REFERENCES users(ID),
+  FOREIGN KEY (clientID) REFERENCES users(ID),
+  FOREIGN KEY (repare_partsID) REFERENCES repare_parts(ID)
+  );
+
+CREATE TABLE messages (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  name NVARCHAR(255)
+  );
+
+CREATE TABLE comments (
+  ID int AUTO_INCREMENT PRIMARY KEY,
+  messageID int,
+  masterID int,
+  requestID int,
+  FOREIGN KEY (messageID) REFERENCES messages(ID),
+  FOREIGN KEY (masterID) REFERENCES users(ID),
+  FOREIGN KEY (requestID) REFERENCES orders(ID)
+  );
